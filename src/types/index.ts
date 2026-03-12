@@ -36,9 +36,15 @@ export interface Settings {
 }
 
 export interface AppState {
+    isAuthenticated: boolean;
     activeChatId: string | null;
     isSettingsOpen: boolean;
     isSidebarOpen: boolean;
     isTyping: boolean;
     settings: Settings;
+}
+
+export interface AuthCredentials {
+    credentials: string;
+    scope: ScopeType;
 }

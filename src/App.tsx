@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import './styles/theme.css';
 
-import type { AppState, Chat, Settings } from './types/index';
+import type { AppState, AuthCredentials, Chat, Settings } from './types';
 import { mockChats, defaultSettings } from './data/mockData';
 
 import { AppLayout } from './components/layout/AppLayout';
 import { Sidebar } from './components/sidebar/Sidebar';
 import { ChatWindow } from './components/chat/ChatWindow';
 import { SettingsPanel } from './components/settings/SettingsPanel';
+import { AuthForm } from './components/auth/AuthForm';
 
 const App: React.FC = () => {
   const [chats, setChats] = useState<Chat[]>(mockChats);
 
   const [appState, setAppState] = useState<AppState>({
+    isAuthenticated: false,
     activeChatId: mockChats[0].id,
     isSettingsOpen: false,
     isSidebarOpen: false,
@@ -26,6 +28,10 @@ const App: React.FC = () => {
   }, [appState.settings.theme]);
 
   const activeChat = chats.find((c) => c.id === appState.activeChatId) ?? null;
+
+  const handleLogin = (_credentials: AuthCredentials) => {
+    setAppState((s) => ({ ...s, isAuthenticated: true }));
+  };
 
   const handleNewChat = () => {
     const newChat: Chat = {
@@ -49,6 +55,10 @@ const App: React.FC = () => {
   const handleToggleSidebar = () => {
     setAppState((s) => ({ ...s, isSidebarOpen: !s.isSidebarOpen }));
   };
+
+  if (!appState.isAuthenticated) {
+    return <AuthForm onLogin={handleLogin} />;
+  }
 
   return (
     <AppLayout
