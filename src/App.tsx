@@ -1,18 +1,20 @@
 import React, { useState } from 'react';
 import './styles/theme.css';
 
-import type { AppState, Chat } from './types';
+import type { AppState, Chat, Settings } from './types/index';
 import { mockChats, defaultSettings } from './data/mockData';
 
 import { AppLayout } from './components/layout/AppLayout';
 import { Sidebar } from './components/sidebar/Sidebar';
 import { ChatWindow } from './components/chat/ChatWindow';
+import { SettingsPanel } from './components/settings/SettingsPanel';
 
 const App: React.FC = () => {
   const [chats, setChats] = useState<Chat[]>(mockChats);
 
   const [appState, setAppState] = useState<AppState>({
     activeChatId: mockChats[0].id,
+    isSettingsOpen: false,
     isSidebarOpen: false,
     isTyping: true,
     settings: defaultSettings,
@@ -37,6 +39,13 @@ const App: React.FC = () => {
     setAppState((s) => ({ ...s, activeChatId: newChat.id, isTyping: false }));
   };
 
+  const handleOpenSettings = () => setAppState((s) => ({ ...s, isSettingsOpen: true }));
+  const handleCloseSettings = () => setAppState((s) => ({ ...s, isSettingsOpen: false }));
+
+  const handleSaveSettings = (settings: Settings) => {
+    setAppState((s) => ({ ...s, settings }));
+  };
+
   const handleToggleSidebar = () => {
     setAppState((s) => ({ ...s, isSidebarOpen: !s.isSidebarOpen }));
   };
@@ -48,6 +57,7 @@ const App: React.FC = () => {
       sidebar={
         <Sidebar
           onNewChat={handleNewChat}
+          onOpenSettings={handleOpenSettings}
         />
       }
       chatWindow={
@@ -55,6 +65,14 @@ const App: React.FC = () => {
           chat={activeChat}
           onToggleSidebar={handleToggleSidebar}
           isSidebarOpen={appState.isSidebarOpen}
+        />
+      }
+      settingsPanel={
+        <SettingsPanel
+          isOpen={appState.isSettingsOpen}
+          settings={appState.settings}
+          onSave={handleSaveSettings}
+          onClose={handleCloseSettings}
         />
       }
     />

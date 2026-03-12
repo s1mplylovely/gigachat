@@ -10,7 +10,7 @@ interface ChatWindowProps {
 
 export const ChatWindow: React.FC<ChatWindowProps> = ({
     chat,
-    onToggleSidebar
+    onToggleSidebar,
 }) => {
     const title = chat?.title ?? 'GigaChat'
 
@@ -32,11 +32,11 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                             <line x1="3" y1="18" x2="21" y2="18" />
                         </svg>
                     </button>
+                </div>
 
-                    {/* Заголовок чата */}
-                    <div className={styles.titleBlock}>
-                        <div className={styles.title}>{title}</div>
-                    </div>
+                {/* Заголовок чата */}
+                <div className={styles.titleBlock}>
+                    <div className={styles.title}>{title}</div>
                 </div>
             </header>
         </div>

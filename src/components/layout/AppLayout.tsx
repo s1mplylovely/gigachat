@@ -5,6 +5,7 @@ import clsx from 'clsx';
 interface AppLayoutProps {
     sidebar: React.ReactNode;
     chatWindow: React.ReactNode;
+    settingsPanel: React.ReactNode;
     isSidebarOpen: boolean;
     onCloseSidebar: () => void;
 }
@@ -12,6 +13,7 @@ interface AppLayoutProps {
 export const AppLayout: React.FC<AppLayoutProps> = ({
     sidebar,
     chatWindow,
+    settingsPanel,
     isSidebarOpen,
     onCloseSidebar,
 }) => {
@@ -29,11 +31,12 @@ export const AppLayout: React.FC<AppLayoutProps> = ({
                 {sidebar}
             </aside>
 
-            {/* Chat Window */}
+            {/* Main content */}
             <main className={styles.main}>
                 {chatWindow}
             </main>
 
+            {settingsPanel}
         </div >
     );
 };
