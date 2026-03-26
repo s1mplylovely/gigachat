@@ -70,7 +70,6 @@ const App: React.FC = () => {
     });
   }, [debouncedQuery, allChats]);
 
-
   const activeChat = chats.find((c) => c.id === appState.activeChatId) ?? null;
 
   const handleLogin = (_credentials: AuthCredentials) => {
@@ -110,6 +109,29 @@ const App: React.FC = () => {
     setSearchQuery(query);
   };
 
+  const handleSendMessage = (text: string) => {
+    if (!appState.activeChatId) return;
+    const newMsg = {
+      id: String(Date.now()),
+      role: 'user' as const,
+      content: text,
+      timestamp: new Date(),
+    };
+    setChats((prev) =>
+      prev.map((c) =>
+        c.id === appState.activeChatId
+          ? { ...c, messages: [...c.messages, newMsg], lastMessageDate: new Date() }
+          : c
+      )
+    );
+    setAppState((s) => ({ ...s, isTyping: true }));
+    setTimeout(() => setAppState((s) => ({ ...s, isTyping: false })), 2500);
+  };
+
+  const handleStopGeneration = () => {
+    setAppState((s) => ({ ...s, isTyping: false }));
+  };
+
   const handleOpenSettings = () => setAppState((s) => ({ ...s, isSettingsOpen: true }));
   const handleCloseSettings = () => setAppState((s) => ({ ...s, isSettingsOpen: false }));
 
@@ -144,6 +166,9 @@ const App: React.FC = () => {
       chatWindow={
         <ChatWindow
           chat={activeChat}
+          isTyping={appState.isTyping}
+          onSendMessage={handleSendMessage}
+          onStopGeneration={handleStopGeneration}
           onToggleSidebar={handleToggleSidebar}
           isSidebarOpen={appState.isSidebarOpen}
         />

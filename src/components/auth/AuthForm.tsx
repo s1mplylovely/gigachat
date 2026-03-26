@@ -83,9 +83,6 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onLogin }) => {
                     </div>
                 </div>
 
-                {/* <button className={styles.submitButton} onClick={handleSubmit}>
-                    Войти
-                </button> */}
                 <Button
                     variant="primary"
                     size="lg"

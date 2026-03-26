@@ -1,16 +1,24 @@
 import React from 'react'
 import type { Chat } from '../../types'
 import styles from './ChatWindow.module.css'
+import { MessageList } from './MessageList';
+import { InputArea } from './InputArea';
 
 interface ChatWindowProps {
     chat: Chat | null
-    onToggleSidebar: () => void
-    isSidebarOpen: boolean
+    isTyping: boolean;
+    onSendMessage: (text: string) => void;
+    onStopGeneration: () => void;
+    onToggleSidebar: () => void;
+    isSidebarOpen: boolean;
 }
 
 export const ChatWindow: React.FC<ChatWindowProps> = ({
     chat,
-    onToggleSidebar,
+    isTyping,
+    onSendMessage,
+    onStopGeneration,
+    onToggleSidebar
 }) => {
     const title = chat?.title ?? 'GigaChat'
 
@@ -39,6 +47,12 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({
                     <div className={styles.title}>{title}</div>
                 </div>
             </header>
+
+            {/* Сообщения */}
+            <MessageList messages={chat?.messages ?? []} isTyping={isTyping} />
+
+            {/* Поле ввода */}
+            <InputArea onSend={onSendMessage} onStop={onStopGeneration} isGenerating={isTyping} />
         </div>
     )
 }
