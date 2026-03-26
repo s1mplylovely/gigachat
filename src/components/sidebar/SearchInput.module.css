@@ -1,0 +1,31 @@
+.wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.input {
+    width: 100%;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 7px 10px 7px 32px;
+
+    font-size: 13px;
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+
+    outline: none;
+    transition: border-color var(--transition);
+}
+
+.input:focus {
+    border-color: var(--accent-border);
+}

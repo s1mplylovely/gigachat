@@ -1,0 +1,120 @@
+.chatItem {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    padding: 9px 10px;
+    border-radius: var(--radius-sm);
+
+    cursor: pointer;
+    border: 1px solid transparent;
+
+    transition: background var(--transition);
+}
+
+.chatItem:hover {
+    background: var(--bg-hover);
+}
+
+.active {
+    background: var(--bg-active);
+    border: 1px solid var(--accent-border);
+}
+
+.icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex-shrink: 0;
+
+    background: var(--bg-elevated);
+}
+
+.active .icon {
+    background: var(--accent-soft);
+}
+
+.icon svg {
+    width: 13px;
+    height: 13px;
+    stroke: var(--text-muted);
+    fill: none;
+    stroke-width: 2;
+}
+
+.active .icon svg {
+    stroke: var(--accent);
+}
+
+.text {
+    flex: 1;
+    min-width: 0;
+}
+
+.title {
+    font-size: 13px;
+    color: var(--text-secondary);
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.active .title {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.date {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 1px;
+}
+
+.actions {
+    display: flex;
+    gap: 2px;
+    opacity: 0;
+
+    transition: opacity 0.15s ease;
+}
+
+.chatItem:hover .actions {
+    opacity: 1;
+}
+
+button {
+    background: none;
+    border: none;
+    padding: 3px;
+
+    display: flex;
+    cursor: pointer;
+
+    border-radius: 4px;
+    color: var(--text-muted);
+
+    transition: color var(--transition);
+}
+
+button svg {
+    width: 12px;
+    height: 12px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+}
+
+.editBtn:hover {
+    color: var(--text-primary);
+}
+
+.deleteBtn:hover {
+    color: var(--error);
+}

@@ -120,15 +120,18 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                             <input
                                 className={styles.numberInput}
                                 type="number"
-                                min={64}
+                                min={1024}
                                 max={128000}
-                                step={128}
+                                step={1024}
                                 value={local.maxTokens}
                                 onChange={(e) => {
+                                    const input = e.target;
+                                    const min = Number(input.min);
+                                    const max = Number(input.max);
                                     let value = Number(e.target.value);
-                                    if (isNaN(value)) value = 0;
-                                    if (value > 128000) value = 128000;
-                                    if (value < 0) value = 0;
+                                    if (isNaN(value)) value = min;
+                                    if (value > max) value = max;
+                                    if (value < min) value = min;
                                     update('maxTokens', value);
                                 }}
                             />

@@ -37,7 +37,7 @@
     left: 0;
     right: 0;
     height: 3px;
-    background: var(--bg-elevated);
+    background: var(--bg-tertiary);
     border-radius: 999px;
 }
 

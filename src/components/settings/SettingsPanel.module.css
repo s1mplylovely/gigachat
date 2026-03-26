@@ -190,3 +190,11 @@
 .saveBtn {
     flex: 2;
 }
+
+/* Мобильная версия */
+@media (max-width: 768px) {
+
+    .drawer {
+        width: 100vw;
+    }
+}

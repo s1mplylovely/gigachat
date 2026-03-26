@@ -1,15 +1,30 @@
 import React from 'react';
+import type { Chat } from '../../types';
 import styles from './Sidebar.module.css';
 import logo from '../../data/gigachat-horizontal-logo.svg';
 import { Button } from '../ui/Button';
+import { SearchInput } from './SearchInput';
+import { ChatList } from './ChatList';
 
 interface SidebarProps {
+    chats: Chat[];
+    activeChatId: string | null;
     onNewChat: () => void;
+    onSelectChat: (id: string) => void;
+    onEditChat: (id: string) => void;
+    onDeleteChat: (id: string) => void;
+    onSearch: (query: string) => void;
     onOpenSettings: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
+    chats,
+    activeChatId,
     onNewChat,
+    onSelectChat,
+    onEditChat,
+    onDeleteChat,
+    onSearch,
     onOpenSettings
 }) => {
     return (
@@ -35,11 +50,22 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     </svg>
                     Новый чат
                 </Button>
+
+                {/* Search */}
+                <div className={styles.search}>
+                    <SearchInput onSearch={onSearch} />
+                </div>
             </div>
 
             {/* Chat list */}
             <div className={styles.chatList}>
-                {/* <ChatList/> */}
+                <ChatList
+                    chats={chats}
+                    activeChatId={activeChatId}
+                    onSelectChat={onSelectChat}
+                    onEditChat={onEditChat}
+                    onDeleteChat={onDeleteChat}
+                />
             </div>
 
             {/* Footer */}

@@ -9,15 +9,16 @@
 }
 
 .header {
-    padding: 18px 16px 14px;
+    padding: 10px 16px;
     border-bottom: 1px solid var(--border-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .logoRow {
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 14px;
 }
 
 .logoIcon {
@@ -30,11 +31,11 @@
     justify-content: center;
     box-shadow: var(--shadow-glow);
     flex-shrink: 0;
+    padding: 4px;
 }
 
 .newChatBtn {
     width: 100%;
-    gap: 8px;
 }
 
 .chatList {

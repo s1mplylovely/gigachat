@@ -1,0 +1,28 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.item {
+    animation: slideIn 0.2s ease both;
+}
+
+.empty {
+    padding: 20px 10px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}

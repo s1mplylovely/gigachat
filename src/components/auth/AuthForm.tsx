@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import type { AuthCredentials, ScopeType } from '../../types';
 import { ErrorMessage } from '../ui/ErrorMessage';
+import { Button } from '../ui/Button';
 import styles from './AuthForm.module.css';
 import logo from '../../data/gigachat-horizontal-logo.svg';
 
@@ -82,9 +83,17 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onLogin }) => {
                     </div>
                 </div>
 
-                <button className={styles.submitButton} onClick={handleSubmit}>
+                {/* <button className={styles.submitButton} onClick={handleSubmit}>
                     Войти
-                </button>
+                </button> */}
+                <Button
+                    variant="primary"
+                    size="lg"
+                    onClick={handleSubmit}
+                    className={styles.submitButton}
+                >
+                    Войти
+                </Button>
             </div>
         </div>
     );
