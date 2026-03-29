@@ -1,5 +1,7 @@
 import React, { useState, useRef, useLayoutEffect, useCallback } from 'react';
+import clsx from 'clsx';
 import styles from './InputArea.module.css';
+import { Icon } from '../ui/Icon';
 
 interface InputAreaProps {
     onSend: (text: string) => void;
@@ -54,16 +56,11 @@ export const InputArea: React.FC<InputAreaProps> = ({
         <div className={styles.wrapper}>
             <div className={styles.inputContainer}>
                 {/* Изображение */}
-                <button className={styles.attachButton}
+                <button
+                    className={styles.attachButton}
                     title="Прикрепить изображение"
                     type="button">
-                    <svg viewBox="0 0 20 20" fill="none">
-                        <path d="M17 11l-5 5a5 5 0 01-7.07-7.07l7-7a3 3 0 014.24 4.24L9 13.5a1 1 0 01-1.41-1.41L14 6"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round" />
-                    </svg>
+                    <Icon name='attach' />
                 </button>
 
                 {/* Поле ввода */}
@@ -73,7 +70,7 @@ export const InputArea: React.FC<InputAreaProps> = ({
                     value={value}
                     onChange={(e) => setValue(e.target.value)}
                     onKeyDown={handleKeyDown}
-                    placeholder="Напишите сообщение... (Enter — отправить, Shift+Enter — новая строка)"
+                    placeholder="Напишите сообщение..."
                     rows={1}
                 />
 
@@ -82,33 +79,20 @@ export const InputArea: React.FC<InputAreaProps> = ({
                         onClick={onStop}
                         className={styles.stopButton}
                         title="Остановить генерацию"
-                        type="button"
-                    >
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="var(--error)">
-                            <rect x="3" y="3" width="18" height="18" rx="2" />
-                        </svg>
+                        type="button">
+                        <Icon name='stop' />
                     </button>
                 ) : (
                     <button
                         onClick={handleSend}
                         disabled={!canSend}
-                        className={`${styles.sendButton} ${canSend ? styles.sendButtonActive : styles.sendButtonDisabled}`}
+                        className={clsx(
+                            styles.sendButton,
+                            canSend ? styles.sendButtonActive : styles.sendButtonDisabled
+                        )}
                         title="Отправить"
-                        type="button"
-                    >
-                        <svg
-                            width="14"
-                            height="14"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke={canSend ? '#fff' : 'var(--text-muted)'}
-                            strokeWidth="2.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            <line x1="22" y1="2" x2="11" y2="13" />
-                            <polygon points="22 2 15 22 11 13 2 9 22 2" />
-                        </svg>
+                        type="button">
+                        <Icon name='send' />
                     </button>
                 )}
             </div>

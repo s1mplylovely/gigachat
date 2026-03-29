@@ -110,22 +110,52 @@ const App: React.FC = () => {
   };
 
   const handleSendMessage = (text: string) => {
-    if (!appState.activeChatId) return;
-    const newMsg = {
-      id: String(Date.now()),
-      role: 'user' as const,
-      content: text,
+    const chatId = appState.activeChatId;
+    if (!chatId) return;
+
+    const now = new Date();
+
+    const createMessage = (
+      role: 'user' | 'assistant',
+      content: string
+    ) => ({
+      id: crypto.randomUUID(),
+      role,
+      content,
       timestamp: new Date(),
+    });
+
+    const updateChat = (messagesUpdater: (messages: any[]) => any[]) => {
+      setChats((prev) =>
+        prev.map((c) =>
+          c.id === chatId
+            ? {
+              ...c,
+              messages: messagesUpdater(c.messages),
+              lastMessageDate: now,
+            }
+            : c
+        )
+      );
     };
-    setChats((prev) =>
-      prev.map((c) =>
-        c.id === appState.activeChatId
-          ? { ...c, messages: [...c.messages, newMsg], lastMessageDate: new Date() }
-          : c
-      )
-    );
+
+    // сообщение пользователя
+    const userMsg = createMessage('user', text);
+    updateChat((msgs) => [...msgs, userMsg]);
+
+    // имитация ответа
     setAppState((s) => ({ ...s, isTyping: true }));
-    setTimeout(() => setAppState((s) => ({ ...s, isTyping: false })), 2500);
+
+    setTimeout(() => {
+      const reply = createMessage(
+        'assistant',
+        `Вы написали:\n> ${text}`
+      );
+
+      updateChat((msgs) => [...msgs, reply]);
+
+      setAppState((s) => ({ ...s, isTyping: false }));
+    }, 2000);
   };
 
   const handleStopGeneration = () => {

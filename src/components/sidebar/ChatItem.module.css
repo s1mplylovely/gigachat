@@ -22,7 +22,7 @@
     border: 1px solid var(--accent-border);
 }
 
-.icon {
+.messageIcon {
     width: 28px;
     height: 28px;
     border-radius: 7px;
@@ -36,19 +36,19 @@
     background: var(--bg-elevated);
 }
 
-.active .icon {
+.active .messageIcon {
     background: var(--accent-soft);
 }
 
-.icon svg {
-    width: 13px;
-    height: 13px;
+.messageIcon svg {
+    /* width: 13px;
+    height: 13px; */
     stroke: var(--text-muted);
     fill: none;
     stroke-width: 2;
 }
 
-.active .icon svg {
+.active .messageIcon svg {
     stroke: var(--accent);
 }
 
@@ -101,14 +101,6 @@ button {
     color: var(--text-muted);
 
     transition: color var(--transition);
-}
-
-button svg {
-    width: 12px;
-    height: 12px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
 }
 
 .editBtn:hover {

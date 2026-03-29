@@ -4,6 +4,7 @@ import type { Settings, GigaChatModel } from '../../types';
 import { Slider } from '../ui/Slider';
 import { Toggle } from '../ui/Toggle';
 import { Button } from '../ui/Button';
+import { Icon } from '../ui/Icon';
 
 import { defaultSettings } from '../../data/mockData';
 
@@ -64,15 +65,9 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
             <div className={styles.drawer}>
                 {/* Header */}
                 <header className={styles.header}>
-                    <div>
-                        <div className={styles.title}>Настройки</div>
-                    </div>
-
+                    <div className={styles.title}>Настройки</div>
                     <button className={styles.closeBtn} onClick={onClose}>
-                        <svg className={styles.closeBtnIcon} viewBox="0 0 24 24">
-                            <line x1="18" y1="6" x2="6" y2="18" />
-                            <line x1="6" y1="6" x2="18" y2="18" />
-                        </svg>
+                        <Icon name='close' />
                     </button>
                 </header>
 
@@ -168,8 +163,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                         variant="ghost"
                         size="md"
                         onClick={handleReset}
-                        className={styles.resetBtn}
-                    >
+                        className={styles.resetBtn}>
                         Сбросить
                     </Button>
 
@@ -177,8 +171,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                         variant="primary"
                         size="md"
                         onClick={handleSave}
-                        className={styles.saveBtn}
-                    >
+                        className={styles.saveBtn}>
                         Сохранить
                     </Button>
                 </footer>

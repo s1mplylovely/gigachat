@@ -1,6 +1,7 @@
 import { memo } from 'react';
+import clsx from 'clsx';
 import styles from './TypingIndicator.module.css';
-import logo from '../../data/gigachat-sign-logo.svg';
+import { Icon } from '../ui/Icon';
 
 interface TypingIndicatorProps {
     isVisible: boolean;
@@ -12,10 +13,8 @@ export const TypingIndicator = memo<TypingIndicatorProps>(
         if (!isVisible) return null;
 
         return (
-            <div className={`${styles.wrapper} ${className ?? ''}`}>
-                <div className={styles.avatar}>
-                    <img src={logo} alt="Logo" />
-                </div>
+            <div className={clsx(styles.wrapper, className)}>
+                <Icon name='assistant' />
 
                 <div className={styles.bubble}>
                     <span className={styles.dot} />

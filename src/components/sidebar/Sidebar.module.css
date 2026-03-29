@@ -21,17 +21,8 @@
     align-items: center;
 }
 
-.logoIcon {
-    width: 120px;
-    height: 40px;
-    border-radius: 10px;
-    background: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--shadow-glow);
-    flex-shrink: 0;
-    padding: 4px;
+.logoRow div {
+    border-radius: 12px;
 }
 
 .newChatBtn {
@@ -94,32 +85,4 @@
 .settings:hover {
     color: var(--text-primary);
     border-color: var(--accent-border);
-}
-
-
-.newChatIcon {
-    width: 14px;
-    height: 14px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2.5;
-    stroke-linecap: round;
-}
-
-.userIcon {
-    width: 14px;
-    height: 14px;
-    fill: none;
-    stroke: var(--text-muted);
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
-
-.settingsIcon {
-    width: 16px;
-    height: 16px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import type { Message as MessageType } from '../../types';
-// import { Message } from './Message';
+import { Message } from './Message';
 import { TypingIndicator } from './TypingIndicator';
 import { EmptyState } from '../ui/EmptyState';
 import styles from './MessageList.module.css';
@@ -27,9 +27,9 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, isTyping }) 
 
     return (
         <div className={styles.container}>
-            {/* {messages.map((msg) => (
+            {messages.map((msg) => (
                 <Message key={msg.id} message={msg} variant={msg.role} />
-            ))} */}
+            ))}
 
             {isTyping && <TypingIndicator isVisible />}
 

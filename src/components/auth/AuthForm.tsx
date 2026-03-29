@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import clsx from 'clsx';
 import type { AuthCredentials, ScopeType } from '../../types';
 import { ErrorMessage } from '../ui/ErrorMessage';
 import { Button } from '../ui/Button';
+import { Icon } from '../ui/Icon';
 import styles from './AuthForm.module.css';
-import logo from '../../data/gigachat-horizontal-logo.svg';
 
 interface AuthFormProps {
     onLogin: (credentials: AuthCredentials) => void;
@@ -37,9 +38,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onLogin }) => {
 
             <div className={styles.card}>
                 <div className={styles.logoRow}>
-                    <div className={styles.logoIcon}>
-                        <img src={logo} alt="Logo" />
-                    </div>
+                    <Icon name='logo' size={50} />
                 </div>
 
                 {/* Поле ввода пароля */}
@@ -50,9 +49,9 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onLogin }) => {
                         value={credentials}
                         onChange={(e) => { setCredentials(e.target.value); setError(''); }}
                         placeholder="Base64-строка"
-                        className={`${styles.input} ${error ? styles.inputError : ''}`}
+                        className={clsx(styles.input, { [styles.inputError]: error })}
                     />
-                    {error && <div style={{ marginTop: '8px' }}><ErrorMessage message={error} /></div>}
+                    {error && <div className={styles.errorMessage}><ErrorMessage message={error} /></div>}
                 </div>
 
                 {/* Radio button */}
@@ -62,7 +61,7 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onLogin }) => {
                         {scopes.map((s) => (
                             <label
                                 key={s.value}
-                                className={`${styles.scopeItem} ${scope === s.value ? styles.scopeItemSelected : ''}`}
+                                className={clsx(styles.scopeItem, { [styles.scopeItemSelected]: scope === s.value })}
                             >
                                 <input
                                     type="radio"
@@ -70,10 +69,10 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onLogin }) => {
                                     value={s.value}
                                     checked={scope === s.value}
                                     onChange={() => setScope(s.value)}
-                                    style={{ accentColor: 'var(--accent)', width: 14, height: 14 }}
+                                    className={styles.radioButton}
                                 />
                                 <div>
-                                    <div className={`${styles.scopeLabel} ${scope === s.value ? styles.scopeLabelSelected : ''}`}>
+                                    <div className={clsx(styles.scopeLabel, { [styles.scopeLabelSelected]: scope === s.value })}>
                                         {s.label}
                                     </div>
                                     <div className={styles.scopeValue}>{s.value}</div>

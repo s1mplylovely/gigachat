@@ -74,9 +74,17 @@
     box-shadow: 0 2px 10px var(--accent-glow);
 }
 
+.sendButtonActive svg {
+    stroke: #fff;
+}
+
 .sendButtonDisabled {
     background: var(--bg-elevated);
     cursor: not-allowed;
+}
+
+.sendButtonDisabled svg {
+    stroke: var(--text-muted);
 }
 
 .stopButton {

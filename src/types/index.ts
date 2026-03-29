@@ -48,3 +48,13 @@ export interface AuthCredentials {
     credentials: string;
     scope: ScopeType;
 }
+
+export interface IconProps {
+    name: IconName;
+    size?: number;
+}
+
+export type IconName =
+    | 'attach' | 'send' | 'stop' | 'close' | 'burger' | 'checkmark'
+    | 'copy' | 'message' | 'edit' | 'delete' | 'search' | 'plus'
+    | 'user' | 'settings' | 'error' | 'assistant' | 'logo';

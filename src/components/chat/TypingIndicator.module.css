@@ -6,18 +6,6 @@
     animation: fadeUp 0.2s ease;
 }
 
-.avatar {
-    width: 32px;
-    height: 32px;
-    padding: 4px;
-    border-radius: 10px;
-    background: var(--accent);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
 .bubble {
     background: var(--assistant-bubble);
     border: 1px solid var(--border);

@@ -1,6 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import type { ChangeEvent } from 'react';
+import clsx from 'clsx';
 import styles from './SearchInput.module.css';
+import { Icon } from '../ui/Icon';
 
 interface SearchInputProps {
     placeholder?: string;
@@ -26,21 +28,8 @@ export const SearchInput: React.FC<SearchInputProps> = ({
     );
 
     return (
-        <div className={`${styles.wrapper} ${className ?? ''}`}>
-            <svg
-                className={styles.icon}
-                width="14"
-                height="14"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="var(--text-muted)"
-                strokeWidth="2"
-                strokeLinecap="round"
-            >
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-
+        <div className={clsx(styles.wrapper, className)}>
+            <Icon name='search' />
             <input
                 type="text"
                 value={value}

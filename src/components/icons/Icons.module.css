@@ -1,0 +1,33 @@
+/* search */
+.searchIcon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+/* error */
+.errorIcon {
+    flex-shrink: 0;
+}
+
+/* logo */
+.assistantAvatar {
+    padding: 4px;
+    border-radius: 10px;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.logoIcon {
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    box-shadow: var(--shadow-glow);
+    padding: 4px;
+    flex-shrink: 0;
+}
