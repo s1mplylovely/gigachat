@@ -32,10 +32,6 @@ export const AuthForm: React.FC<AuthFormProps> = ({ onLogin }) => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.backgroundCircle}>
-                <div className={styles.circle} />
-            </div>
-
             <div className={styles.card}>
                 <div className={styles.logoRow}>
                     <Icon name='logo' size={50} />

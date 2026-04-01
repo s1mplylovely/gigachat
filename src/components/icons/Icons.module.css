@@ -26,7 +26,6 @@
 .logoIcon {
     background: var(--accent);
     display: flex;
-    align-items: center;
     box-shadow: var(--shadow-glow);
     padding: 4px;
     flex-shrink: 0;

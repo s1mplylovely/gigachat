@@ -13,18 +13,6 @@
     flex-direction: row;
 }
 
-.avatar {
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-    background: var(--accent-soft);
-    border: 1px solid var(--accent-border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
 .bubbleContainer {
     max-width: 72%;
     position: relative;
@@ -95,9 +83,21 @@
 
 .copySuccess {
     color: var(--success);
+    opacity: 1;
+    animation: checkmarkPop 2s ease;
 }
 
 .spacer {
     width: 32px;
     flex-shrink: 0;
+}
+
+@keyframes checkmarkPop {
+    80% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
 }

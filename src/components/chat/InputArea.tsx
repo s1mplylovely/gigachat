@@ -60,7 +60,7 @@ export const InputArea: React.FC<InputAreaProps> = ({
                     className={styles.attachButton}
                     title="Прикрепить изображение"
                     type="button">
-                    <Icon name='attach' />
+                    <Icon name='attach' size={20} />
                 </button>
 
                 {/* Поле ввода */}

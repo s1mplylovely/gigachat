@@ -67,7 +67,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                 <header className={styles.header}>
                     <div className={styles.title}>Настройки</div>
                     <button className={styles.closeBtn} onClick={onClose}>
-                        <Icon name='close' />
+                        <Icon name='close' size={18} />
                     </button>
                 </header>
 

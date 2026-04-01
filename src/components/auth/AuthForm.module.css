@@ -8,24 +8,6 @@
     position: relative;
 }
 
-.backgroundCircle {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    overflow: hidden;
-}
-
-.circle {
-    position: absolute;
-    top: -20%;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 600px;
-    height: 600px;
-    border-radius: 50%;
-    background: radial-gradient(circle, rgba(124, 106, 247, 0.08) 0%, transparent 70%);
-}
-
 .card {
     width: 100%;
     max-width: 420px;
@@ -40,24 +22,13 @@
 
 .logoRow {
     margin-bottom: 32px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .logoRow div {
     border-radius: 16px;
-    justify-content: center;
-}
-
-.title {
-    font-size: 22px;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: -0.5px;
-}
-
-.subtitle {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-top: 4px;
 }
 
 .fieldGroup {
@@ -153,12 +124,4 @@
 
 .submitButton:hover {
     opacity: 0.9;
-}
-
-.infoText {
-    text-align: center;
-    margin-top: 16px;
-    font-size: 11px;
-    color: var(--text-muted);
-    line-height: 1.6;
 }
