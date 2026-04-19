@@ -200,6 +200,11 @@ body {
     white-space: pre;
 }
 
+.markdown-content :global(.hljs) {
+    background: transparent;
+    padding: 0;
+}
+
 /* animations */
 @keyframes blink {
 

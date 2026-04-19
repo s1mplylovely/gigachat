@@ -1,42 +1,51 @@
-import React from 'react';
-import styles from './AppLayout.module.css';
+import React, { useState } from 'react';
+import { Outlet } from 'react-router-dom';
 import clsx from 'clsx';
+import styles from './AppLayout.module.css';
+import { useIsAuthenticated } from '../../utils/storage';
+import { AuthForm } from '../auth/AuthForm';
+import { Sidebar } from '../sidebar/Sidebar';
+import { SettingsPanel } from '../settings/SettingsPanel';
+import '../../styles/theme.css';
 
-interface AppLayoutProps {
-    sidebar: React.ReactNode;
-    chatWindow: React.ReactNode;
-    settingsPanel: React.ReactNode;
-    isSidebarOpen: boolean;
-    onCloseSidebar: () => void;
-}
+export const AppLayout: React.FC = () => {
+    const isAuthenticated = useIsAuthenticated();
+    const [settingsOpen, setSettingsOpen] = useState(false);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
-export const AppLayout: React.FC<AppLayoutProps> = ({
-    sidebar,
-    chatWindow,
-    settingsPanel,
-    isSidebarOpen,
-    onCloseSidebar,
-}) => {
+    if (!isAuthenticated) return <AuthForm />;
+
     return (
         <div className={styles.layout}>
 
             {/* Mobile overlay */}
             <div
-                className={clsx(styles.overlay, { [styles.overlayOpen]: isSidebarOpen })}
-                onClick={onCloseSidebar}
+                className={clsx(styles.overlay, { [styles.overlayOpen]: sidebarOpen })}
+                onClick={() => setSidebarOpen(false)}
             />
 
             {/* Sidebar */}
-            <aside className={clsx(styles.sidebar, { [styles.sidebarOpen]: isSidebarOpen })}>
-                {sidebar}
-            </aside>
+            <Sidebar
+                isOpen={sidebarOpen}
+                onClose={() => setSidebarOpen(false)}
+                onOpenSettings={() => setSettingsOpen(true)}
+            />
 
             {/* Main content */}
             <main className={styles.main}>
-                {chatWindow}
+                <Outlet context={{
+                    onOpenSettings: () => setSettingsOpen(true),
+                    onToggleSidebar: () => setSidebarOpen((v) => !v)
+                }} />
             </main>
 
-            {settingsPanel}
+            {/* Настройки */}
+            <SettingsPanel
+                isOpen={settingsOpen}
+                onClose={() => setSettingsOpen(false)}
+            />
         </div >
     );
 };
+
+AppLayout.displayName = 'AppLayout';

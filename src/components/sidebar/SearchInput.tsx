@@ -1,42 +1,45 @@
-import React, { useState, useCallback } from 'react';
-import type { ChangeEvent } from 'react';
-import clsx from 'clsx';
+import React, { useState, memo } from 'react';
 import styles from './SearchInput.module.css';
+import { useStore, useSearchQuery } from '../../utils/storage';
+import { useDebounce } from '../../hooks/useDebounce';
 import { Icon } from '../ui/Icon';
 
-interface SearchInputProps {
-    placeholder?: string;
-    onSearch?: (query: string) => void;
-    className?: string;
-}
+const DEBOUNCE_TIME = 250;
 
-export const SearchInput: React.FC<SearchInputProps> = ({
-    placeholder = 'Поиск чатов...',
-    onSearch,
-    className,
-}) => {
-    const [value, setValue] = useState('');
+export const SearchInput: React.FC = memo(() => {
+    const { setSearchQuery } = useStore();
+    const searchQuery = useSearchQuery();
 
-    const handleChange = useCallback(
-        (e: ChangeEvent<HTMLInputElement>) => {
-            const query = e.target.value;
+    const [localSearch, setLocalSearch] = useState(searchQuery);
+    const debouncedSearch = useDebounce(localSearch, DEBOUNCE_TIME);
 
-            setValue(query);
-            onSearch?.(query);
-        },
-        [onSearch]
-    );
+    React.useEffect(() => {
+        if (debouncedSearch !== searchQuery) {
+            setSearchQuery(debouncedSearch);
+        }
+    }, [debouncedSearch, searchQuery, setSearchQuery]);
+
+    React.useEffect(() => {
+        setLocalSearch(searchQuery);
+    }, [searchQuery]);
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setLocalSearch(e.target.value);
+    };
 
     return (
-        <div className={clsx(styles.wrapper, className)}>
+        <div className={styles.wrapper}>
             <Icon name='search' />
             <input
-                type="text"
-                value={value}
+                type="search"
+                value={localSearch}
                 onChange={handleChange}
-                placeholder={placeholder}
+                aria-label="Поиск чатов"
+                placeholder="Поиск чатов..."
                 className={styles.input}
             />
         </div>
     );
-};
+});
+
+SearchInput.displayName = 'SearchInput';

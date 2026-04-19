@@ -1,4 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useEffect, memo } from 'react';
+import { useStore, useSettings } from '../../utils/storage';
 import type { Settings, GigaChatModel } from '../../types';
 
 import { Slider } from '../ui/Slider';
@@ -6,55 +7,49 @@ import { Toggle } from '../ui/Toggle';
 import { Button } from '../ui/Button';
 import { Icon } from '../ui/Icon';
 
-import { defaultSettings } from '../../data/mockData';
-
 import styles from './SettingsPanel.module.css';
 
 interface SettingsPanelProps {
     isOpen: boolean;
-    settings: Settings;
-    onSave: (settings: Settings) => void;
     onClose: () => void;
 }
 
-const models: GigaChatModel[] = [
+const MODELS: GigaChatModel[] = [
     'GigaChat',
     'GigaChat-Plus',
     'GigaChat-Pro',
     'GigaChat-Max',
 ];
 
-export const SettingsPanel: React.FC<SettingsPanelProps> = ({
-    isOpen,
-    settings,
-    onSave,
-    onClose,
-}) => {
-    const [local, setLocal] = useState<Settings>(settings);
+export const SettingsPanel: React.FC<SettingsPanelProps> = memo(({ isOpen, onClose }) => {
+    const globalSettings = useSettings();
+    const { updateSettings, resetSettings, logout } = useStore();
+    // Фиксируется только при сохранении
+    const [local, setLocal] = useState<Settings>(globalSettings);
 
-    const update = useCallback(
-        <K extends keyof Settings>(key: K, value: Settings[K]) => {
-            setLocal((prev) => ({ ...prev, [key]: value }));
-        },
-        []
-    );
+    // Синхронизировать при открытии панели
+    useEffect(() => {
+        if (isOpen) setLocal(globalSettings);
+    }, [isOpen, globalSettings]);
 
-    const handleThemeChange = (isDark: boolean) => {
-        const root = document.documentElement;
-        if (isDark) root.classList.add('dark');
-        else root.classList.remove('dark');
+    // Применить тему
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', local.theme);
+    }, [local.theme]);
 
-        update('theme', isDark ? 'dark' : 'light');
+    const update = <K extends keyof Settings>(key: K, value: Settings[K]) =>
+        setLocal((d) => ({ ...d, [key]: value }));
+
+    const handleSave = () => {
+        updateSettings(local);
+        document.documentElement.setAttribute('data-theme', local.theme);
+        onClose();
     };
 
-    const handleReset = useCallback(() => {
-        setLocal(defaultSettings);
-    }, []);
-
-    const handleSave = useCallback(() => {
-        onSave(local);
-        onClose();
-    }, [local, onSave, onClose]);
+    const handleReset = () => {
+        resetSettings();
+        setLocal(globalSettings); // будет повторная синхронизация с useEffect
+    };
 
     if (!isOpen) return null;
 
@@ -73,24 +68,33 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
 
                 {/* Body */}
                 <div className={styles.body}>
-                    <SectionLabel>Модель</SectionLabel>
 
+                    <SectionLabel>Модель</SectionLabel>
                     <select
                         className={styles.select}
                         value={local.model}
-                        onChange={(e) =>
-                            update('model', e.target.value as GigaChatModel)
-                        }
+                        onChange={(e) => update('model', e.target.value as GigaChatModel)}
                     >
-                        {models.map((m) => (
+                        {MODELS.map((m) => (
                             <option key={m} value={m}>
                                 {m}
                             </option>
                         ))}
                     </select>
 
-                    <SectionLabel>Параметры генерации</SectionLabel>
+                    <SectionLabel>Потоковый режим</SectionLabel>
+                    <div className={styles.themeRow}>
+                        <div>
+                            <div className={styles.themeTitle}>Стриминг (SSE)</div>
+                        </div>
+                        <Toggle
+                            checked={local.streamingEnabled}
+                            onChange={(v) => update('streamingEnabled', v)}
+                        />
+                    </div>
 
+
+                    <SectionLabel>Параметры генерации</SectionLabel>
                     <div className={styles.sliderGroup}>
                         <Slider
                             label="Temperature"
@@ -116,7 +120,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                                 className={styles.numberInput}
                                 type="number"
                                 min={1024}
-                                max={128000}
+                                max={32768}
                                 step={1024}
                                 value={local.maxTokens}
                                 onChange={(e) => {
@@ -134,7 +138,6 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                     </div>
 
                     <SectionLabel>Системный промпт</SectionLabel>
-
                     <textarea
                         className={styles.textarea}
                         rows={4}
@@ -142,19 +145,30 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                         onChange={(e) =>
                             update('systemPrompt', e.target.value)
                         }
+                        placeholder="Инструкции для GigaChat..."
                     />
 
                     <SectionLabel>Интерфейс</SectionLabel>
-
                     <div className={styles.themeRow}>
                         <div>
                             <div className={styles.themeTitle}>Темная тема</div>
                         </div>
                         <Toggle
                             checked={local.theme === 'dark'}
-                            onChange={(v) => handleThemeChange(v)}
+                            onChange={(v) => update('theme', v ? 'dark' : 'light')}
                         />
                     </div>
+
+                    <SectionLabel>Аккаунт</SectionLabel>
+                    <Button
+                        variant="ghost"
+                        size="md"
+                        onClick={logout}
+                        className={styles.logoutBtn}
+                    >
+                        Выйти
+                    </Button>
+
                 </div>
 
                 {/* Footer */}
@@ -175,10 +189,12 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                         Сохранить
                     </Button>
                 </footer>
-            </div>
+            </div >
         </>
     );
-};
+});
+
+SettingsPanel.displayName = 'SettingsPanel';
 
 const SectionLabel: React.FC<{ children: React.ReactNode }> = ({
     children,

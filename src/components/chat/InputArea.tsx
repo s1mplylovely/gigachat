@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect, useCallback } from 'react';
+import React, { useState, useRef, useLayoutEffect, useCallback, memo } from 'react';
 import clsx from 'clsx';
 import styles from './InputArea.module.css';
 import { Icon } from '../ui/Icon';
@@ -6,17 +6,16 @@ import { Icon } from '../ui/Icon';
 interface InputAreaProps {
     onSend: (text: string) => void;
     onStop: () => void;
-    isGenerating?: boolean;
+    isLoading: boolean;
+    isStreaming: boolean;
 }
 
 const MAX_ROWS = 5;
-const LINE_HEIGHT = 22;
+const LINE_HEIGHT = 22; // px
 const BASE_OFFSET = 24;
 
-export const InputArea: React.FC<InputAreaProps> = ({
-    onSend,
-    onStop,
-    isGenerating = false,
+export const InputArea: React.FC<InputAreaProps> = memo(({
+    onSend, onStop, isLoading, isStreaming
 }) => {
     const [value, setValue] = useState('');
     const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -34,11 +33,14 @@ export const InputArea: React.FC<InputAreaProps> = ({
 
     const handleSend = useCallback(() => {
         const trimmed = value.trim();
-        if (!trimmed) return;
+        if (!trimmed || isLoading || isStreaming) return;
 
         onSend(trimmed);
         setValue('');
-    }, [value, onSend]);
+        if (textareaRef.current) {
+            textareaRef.current.style.height = 'auto';
+        }
+    }, [value, isLoading, isStreaming, onSend]);
 
     const handleKeyDown = useCallback(
         (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -50,7 +52,8 @@ export const InputArea: React.FC<InputAreaProps> = ({
         [handleSend]
     );
 
-    const canSend = value.trim().length > 0;
+    const canSend = value.trim().length > 0 && !isLoading && !isStreaming;
+    const isActive = isLoading || isStreaming;
 
     return (
         <div className={styles.wrapper}>
@@ -59,7 +62,8 @@ export const InputArea: React.FC<InputAreaProps> = ({
                 <button
                     className={styles.attachButton}
                     title="Прикрепить изображение"
-                    type="button">
+                    type="button"
+                    disabled>
                     <Icon name='attach' size={20} />
                 </button>
 
@@ -72,13 +76,16 @@ export const InputArea: React.FC<InputAreaProps> = ({
                     onKeyDown={handleKeyDown}
                     placeholder="Напишите сообщение..."
                     rows={1}
+                    aria-label="Поле ввода сообщения"
+                    disabled={isActive}
                 />
 
-                {isGenerating ? (
+                {isActive ? (
                     <button
                         onClick={onStop}
                         className={styles.stopButton}
                         title="Остановить генерацию"
+                        aria-label="Остановить"
                         type="button">
                         <Icon name='stop' />
                     </button>
@@ -91,6 +98,7 @@ export const InputArea: React.FC<InputAreaProps> = ({
                             canSend ? styles.sendButtonActive : styles.sendButtonDisabled
                         )}
                         title="Отправить"
+                        aria-label="Отправить"
                         type="button">
                         <Icon name='send' />
                     </button>
@@ -98,4 +106,6 @@ export const InputArea: React.FC<InputAreaProps> = ({
             </div>
         </div>
     );
-};
+});
+
+InputArea.displayName = 'InputArea';

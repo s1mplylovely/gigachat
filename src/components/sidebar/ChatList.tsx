@@ -43,6 +43,8 @@ export const ChatList: React.FC<ChatListProps> = ({
     );
 };
 
+ChatList.displayName = 'ChatList';
+
 const EmptyState = () => (
     <div className={styles.empty}>
         Нет диалогов

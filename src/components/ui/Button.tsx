@@ -11,29 +11,32 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children: React.ReactNode;
 }
 
-export const Button: React.FC<ButtonProps> = ({
-    children,
-    variant = 'ghost',
-    size = 'md',
-    disabled,
-    className,
-    type = 'button',
-    ...props
-}) => {
-    return (
-        <button
-            type={type}
-            disabled={disabled}
-            className={clsx(
-                styles.button,
-                styles[variant],
-                styles[size],
-                disabled && styles.disabled,
-                className
-            )}
-            {...props}
-        >
-            {children}
-        </button>
-    );
-};
+export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+    ({
+        children,
+        variant = 'ghost',
+        size = 'md',
+        disabled,
+        className,
+        type = 'button',
+        ...props
+    }, ref) => {
+        return (
+            <button
+                type={type}
+                disabled={disabled}
+                className={clsx(
+                    styles.button,
+                    styles[variant],
+                    styles[size],
+                    disabled && styles.disabled,
+                    className
+                )}
+                ref={ref}
+                {...props}
+            >
+                {children}
+            </button>
+        );
+    }
+);

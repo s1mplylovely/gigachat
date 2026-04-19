@@ -21,3 +21,19 @@
 .input:focus {
     border-color: var(--accent-border);
 }
+
+.search-clear {
+    position: absolute;
+    right: 8px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    display: flex;
+    padding: 3px;
+    border-radius: 4px;
+    transition: color var(--transition);
+}
+
+.search-clear:hover {
+    color: var(--text-primary);
+}

@@ -101,6 +101,29 @@
     cursor: pointer;
 }
 
+.stream {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    gap: 12px;
+}
+
+.streamText {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.streamTitle {
+    font-size: 13px;
+    font-weight: 500;
+}
+
 .sliderGroup {
     display: flex;
     flex-direction: column;
@@ -168,6 +191,7 @@
     background: var(--bg-tertiary);
     border-radius: var(--radius-sm);
     border: 1px solid var(--border);
+    margin-bottom: 12px;
 }
 
 .themeTitle {
@@ -189,6 +213,11 @@
 
 .saveBtn {
     flex: 2;
+}
+
+.logoutBtn:hover {
+    background: var(--error-bg);
+    border: 1px solid var(--error);
 }
 
 /* Мобильная версия */
