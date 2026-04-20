@@ -9,6 +9,7 @@
   justify-content: center;
   animation: fadeIn .15s;
   padding: 20px;
+  padding-bottom: max(20px, env(safe-area-inset-bottom, 20px));
 }
 
 .box {
@@ -37,6 +38,7 @@
   background: var(--error-bg);
   border: 1px solid var(--error);
   color: var(--error);
+  flex-shrink: 0;
 }
 
 .title {
@@ -53,6 +55,15 @@
   width: 100%;
   justify-content: center;
   margin-top: 8px;
+  flex-wrap: wrap;
+}
+
+.cancelBtn,
+.deleteBtn {
+  flex: 1;
+  min-width: 120px;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .cancelBtn:hover {

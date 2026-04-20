@@ -67,18 +67,32 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 2px;
+    padding: 6px;
     display: flex;
     align-items: center;
     gap: 4px;
     font-size: 11px;
     color: var(--text-muted);
+    border-radius: 6px;
+    transition: opacity var(--transition), color var(--transition), background var(--transition);
     opacity: 0;
-    transition: opacity var(--transition), color var(--transition);
+    -webkit-tap-highlight-color: transparent;
 }
 
 .wrapper:hover .copyButton {
     opacity: 1;
+}
+
+@media (hover: none) {
+    .copyButton {
+        opacity: 0.5;
+    }
+}
+
+.copyButton:hover,
+.copyButton:active {
+    opacity: 1;
+    background: var(--bg-hover);
 }
 
 .copySuccess {
@@ -99,5 +113,21 @@
 
     100% {
         opacity: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .bubbleContainer {
+        max-width: 88%;
+    }
+
+    .bubble {
+        font-size: 14px;
+        padding: 10px 13px;
+    }
+
+    .spacer {
+        width: 0;
+        display: none;
     }
 }

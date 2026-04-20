@@ -5,4 +5,13 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 16px 12px 8px;
+        gap: 16px;
+    }
 }

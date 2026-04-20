@@ -29,12 +29,33 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
+    chunkSizeWarningLimit: 500,
     rollupOptions: {
       output: {
-        manualChunks: {
-          'hljs': ['highlight.js'],
-          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-          'zustand': ['zustand', 'immer'],
+        manualChunks(id) {
+          if (id.includes('node_modules/react/') ||
+            id.includes('node_modules/react-dom/') ||
+            id.includes('node_modules/react-router-dom/') ||
+            id.includes('node_modules/react-router/')) {
+            return 'vendor-react';
+          }
+          if (id.includes('node_modules/highlight.js')) {
+            return 'vendor-hljs';
+          }
+          if (id.includes('node_modules/react-markdown') ||
+            id.includes('node_modules/remark') ||
+            id.includes('node_modules/rehype') ||
+            id.includes('node_modules/unified') ||
+            id.includes('node_modules/mdast') ||
+            id.includes('node_modules/hast') ||
+            id.includes('node_modules/micromark') ||
+            id.includes('node_modules/vfile')) {
+            return 'vendor-markdown';
+          }
+          if (id.includes('node_modules/zustand') ||
+            id.includes('node_modules/immer')) {
+            return 'vendor-state';
+          }
         },
       },
     },

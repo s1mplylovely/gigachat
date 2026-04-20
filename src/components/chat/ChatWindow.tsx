@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, memo } from 'react'
 import { useOutletContext } from 'react-router-dom';
 import { useStore } from '../../utils/storage';
 import type { RootStore } from '../../utils/storage';
@@ -7,6 +7,8 @@ import styles from './ChatWindow.module.css'
 import { MessageList } from './MessageList';
 import { InputArea } from './InputArea';
 import { ErrorMessage } from '../ui/ErrorMessage';
+import { ErrorBoundary } from '../ErrorBoundary';
+import { Button } from '../ui/Button';
 import { Icon } from '../ui/Icon';
 
 interface OutletContext {
@@ -17,7 +19,7 @@ interface ChatWindowProps {
     chatId: string;
 }
 
-export const ChatWindow: React.FC<ChatWindowProps> = ({ chatId }) => {
+export const ChatWindow: React.FC<ChatWindowProps> = memo(({ chatId }) => {
     const { onToggleSidebar } = useOutletContext<OutletContext>();
     const { send, stopGeneration } = useSendMessage();
 
@@ -28,6 +30,11 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ chatId }) => {
 
     const handleSend = useCallback((text: string) => { send(chatId, text); },
         [chatId, send],
+    );
+
+    const handleDismissError = useCallback(
+        () => useStore.getState().setError(null),
+        [],
     );
 
     if (!chat) return null;
@@ -61,14 +68,36 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ chatId }) => {
                     <ErrorMessage message={error} style={styles.errorContainer} />
                     <button
                         className={styles.errorClose}
-                        onClick={() => useStore.getState().setError(null)}
+                        onClick={handleDismissError}
                         aria-label="Закрыть"
                     >×</button>
                 </div>
             )}
 
             {/* Сообщения */}
-            <MessageList messages={chat.messages} isTyping={isLoading && !isStreaming} />
+            <ErrorBoundary
+                scope="MessageList"
+                fallback={(err, reset) => (
+                    <div role="alert" className={styles.fallbackContainer}>
+                        <span className={styles.errorIcon}>⚠️</span>
+                        <strong className={styles.errorTitle}>
+                            Не удалось отобразить сообщения
+                        </strong>
+                        <span className={styles.errorMessage}>{err.message}</span>
+                        <Button
+                            variant="ghost"
+                            size="md"
+                            onClick={reset}>
+                            Попробовать снова
+                        </Button>
+                    </div>
+                )}
+            >
+                <MessageList
+                    messages={chat.messages}
+                    isTyping={isLoading && !isStreaming}
+                />
+            </ErrorBoundary>
 
             {/* Поле ввода */}
             <InputArea
@@ -79,6 +108,6 @@ export const ChatWindow: React.FC<ChatWindowProps> = ({ chatId }) => {
             />
         </div>
     )
-}
+});
 
 ChatWindow.displayName = 'ChatWindow';

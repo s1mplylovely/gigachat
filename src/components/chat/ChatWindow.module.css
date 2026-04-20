@@ -3,6 +3,7 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    height: 100dvh;
     overflow: hidden;
     background: var(--bg-primary);
 }
@@ -17,11 +18,14 @@
     background: var(--bg-secondary);
     flex-shrink: 0;
     position: relative;
+    padding-top: env(safe-area-inset-top, 0px);
+    height: calc(56px + env(safe-area-inset-top, 0px));
 }
 
 .left {
     position: absolute;
     left: 20px;
+    top: env(safe-area-inset-top, 0px);
     display: flex;
     align-items: center;
     gap: 12px;
@@ -33,19 +37,35 @@
     cursor: pointer;
     color: var(--text-muted);
     display: none;
-    padding: 4px;
-    border-radius: 6px;
+    padding: 8px;
+    border-radius: 8px;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition), background var(--transition);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.burger:hover,
+.burger:active {
+    color: var(--text-primary);
+    background: var(--bg-hover);
 }
 
 .titleBlock {
     display: flex;
     flex-direction: column;
+    max-width: calc(100% - 80px);
 }
 
 .title {
     font-size: 14px;
     font-weight: 600;
     color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .error {
@@ -67,19 +87,50 @@
     background: none;
     border: none;
     color: var(--error);
-    font-size: 16px;
+    font-size: 18px;
     line-height: 1;
     cursor: pointer;
-    padding: 0 4px;
+    padding: 4px 8px;
+    min-width: 36px;
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .errorContainer {
     animation: fadeIn 0.2s ease;
 }
 
+.fallbackContainer {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 32px;
+    color: var(--text-secondary);
+    font-size: 14px;
+    text-align: center;
+}
+
+.errorIcon {
+    font-size: 28px;
+}
+
+.errorTitle {
+    color: var(--text-primary);
+}
+
 /* Мобильная версия */
 @media (max-width: 768px) {
     .burger {
         display: flex;
+    }
+
+    .header {
+        padding-left: 4px;
+        padding-right: 16px;
     }
 }

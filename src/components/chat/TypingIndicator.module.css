@@ -7,7 +7,9 @@
 }
 
 .bubble {
-    background: var(--assistant-bubble);
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 14px 14px 14px 3px;
     padding: 12px 16px;
     display: flex;
     gap: 5px;

@@ -6,6 +6,8 @@
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 11;
 }
 
 .header {
@@ -80,9 +82,34 @@
     align-items: center;
     justify-content: center;
     transition: all var(--transition);
+    min-width: 36px;
+    min-height: 36px;
 }
 
 .settings:hover {
     color: var(--text-primary);
     border-color: var(--accent-border);
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100%;
+        height: 100dvh;
+        width: min(var(--sidebar-width), 85vw);
+        transform: translateX(-100%);
+        z-index: 20;
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        box-shadow: var(--shadow-lg);
+    }
+
+    .sidebarOpen {
+        transform: translateX(0);
+    }
+
+    .chatList {
+        padding-bottom: 16px;
+    }
 }

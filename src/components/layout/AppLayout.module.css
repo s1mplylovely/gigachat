@@ -6,13 +6,6 @@
     position: relative;
 }
 
-.sidebar {
-    z-index: 11;
-    flex-shrink: 0;
-    /* ускорение в начале замедление в конце*/
-    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 .main {
     flex: 1;
     display: flex;
@@ -28,27 +21,22 @@
     /*над контентом, под боковой панелью*/
     z-index: 10;
     display: none;
+    pointer-events: none;
+}
+
+.overlayOpen {
+    display: block;
+    pointer-events: all;
 }
 
 /* Мобильная версия */
 @media (max-width: 768px) {
-
-    /*закрыт*/
-    .sidebar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        height: 100vh;
-        transform: translateX(-100%);
-        background: white;
-        transition: transform 0.3s ease;
+    .layout {
+        flex-direction: column;
     }
 
-    .sidebarOpen {
-        transform: translateX(0);
-    }
-
-    .overlayOpen {
-        display: block;
+    .main {
+        width: 100%;
+        flex: 1;
     }
 }

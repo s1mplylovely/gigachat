@@ -1,4 +1,4 @@
-import React, { useState, useCallback, memo } from 'react';
+import React, { useState, useCallback, useMemo, memo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import clsx from 'clsx';
 import styles from './Sidebar.module.css';
@@ -23,6 +23,13 @@ export const Sidebar: React.FC<SidebarProps> = memo(({ isOpen, onClose, onOpenSe
 
     const { createChat, deleteChat, editChat } = useStore();
     const filteredChats = useFilteredChats();
+
+    const sortedChats = useMemo(
+        () => [...filteredChats].sort((a, b) =>
+            new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+        ),
+        [filteredChats],
+    );
 
     const [chatToDelete, setChatToDelete] = useState<Chat | null>(null);
 
@@ -50,7 +57,7 @@ export const Sidebar: React.FC<SidebarProps> = memo(({ isOpen, onClose, onOpenSe
     );
 
     const handleDeleteRequest = useCallback((chatId: string) => {
-        const chat = filteredChats.find((c: Chat) => c.id === chatId);
+        const chat = useStore.getState().chats.find((c: Chat) => c.id === chatId);
         if (chat) {
             setChatToDelete(chat);
         }
@@ -67,7 +74,7 @@ export const Sidebar: React.FC<SidebarProps> = memo(({ isOpen, onClose, onOpenSe
 
     return (
         <>
-            <aside className={clsx(styles.sidebar, { '': isOpen })}>
+            <aside className={clsx(styles.sidebar, { [styles.sidebarOpen]: isOpen })}>
                 {/* Header */}
                 <div className={styles.header}>
                     <div className={styles.logoRow}>
@@ -92,7 +99,7 @@ export const Sidebar: React.FC<SidebarProps> = memo(({ isOpen, onClose, onOpenSe
                 {/* Chat list */}
                 <div className={styles.chatList}>
                     <ChatList
-                        chats={filteredChats}
+                        chats={sortedChats}
                         activeChatId={activeChatId || null}
                         onSelectChat={handleSelectChat}
                         onEditChat={handleEditChat}

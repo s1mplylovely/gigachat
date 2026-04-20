@@ -5,8 +5,6 @@ import { TypingIndicator } from './TypingIndicator';
 import { EmptyState } from '../ui/EmptyState';
 import styles from './MessageList.module.css';
 
-const AUTO_SCROLL_HEIGHT = 120; // px
-
 interface MessageListProps {
     messages: MessageType[];
     // True когда ждет первый токен (non-streaming)
@@ -19,14 +17,8 @@ export const MessageList: React.FC<MessageListProps> = memo(({ messages, isTypin
 
     // Авто прокрутка
     useEffect(() => {
-        const el = listRef.current;
-        if (!el) return;
-        // Авто прокрутка только если пользователь в пределах x пикселей от нижней части экрана
-        const distFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
-        if (distFromBottom < AUTO_SCROLL_HEIGHT) {
-            bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }
-    });
+        bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages, isTyping]);
 
     const visibleMessages = messages.filter((m) => m.role !== 'system');
 

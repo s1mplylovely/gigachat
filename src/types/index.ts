@@ -39,21 +39,6 @@ export interface AppState {
     settings: Settings;
 }
 
-// ChatAction
-export type ChatAction =
-    | { type: 'LOAD_STATE'; payload: ChatState }
-    | { type: 'CREATE_CHAT'; payload: Chat }
-    | { type: 'DELETE_CHAT'; payload: { chatId: string } }
-    | { type: 'SET_ACTIVE_CHAT'; payload: { chatId: string | null } }
-    | { type: 'ADD_MESSAGE'; payload: { chatId: string; message: Message } }
-    | { type: 'APPEND_STREAM_CHUNK'; payload: { chatId: string; messageId: string; chunk: string } }
-    | { type: 'FINALIZE_STREAM'; payload: { chatId: string; messageId: string } }
-    | { type: 'UPDATE_CHAT_TITLE'; payload: { chatId: string; title: string } }
-    | { type: 'SET_LOADING'; payload: boolean }
-    | { type: 'SET_STREAMING'; payload: boolean }
-    | { type: 'SET_ERROR'; payload: string | null }
-    | { type: 'SET_SEARCH_QUERY'; payload: string };
-
 // API
 export interface GigaChatMessage {
     role: MessageRole;
