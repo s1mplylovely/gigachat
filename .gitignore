@@ -32,3 +32,6 @@ Thumbs.db
 
 # Vitest coverage
 coverage/
+
+# Vercel
+.vercel/

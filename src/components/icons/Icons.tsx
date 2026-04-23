@@ -1,6 +1,6 @@
 import type { IconProps } from '../../types';
 import styles from './Icons.module.css';
-import logo from '../../data/gigachat-sign-logo.svg';
+import logo from '../../data/gigachat-sign-logo.svg'
 import horizontalLogo from '../../data/gigachat-horizontal-logo.svg';
 
 type BaseIconProps = IconProps & {

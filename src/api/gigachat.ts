@@ -51,7 +51,6 @@ export async function getAccessToken(
         },
         body,
     });
-    console.log('REQUEST BODY:', body);
 
     if (!res.ok) {
         const text = await res.text().catch(() => 'Unknown error');
@@ -116,7 +115,6 @@ export async function sendMessage(
         },
         body: JSON.stringify(body),
     });
-    console.log('REQUEST BODY:', body);
 
     if (!res.ok) {
         const text = await res.text().catch(() => '');
